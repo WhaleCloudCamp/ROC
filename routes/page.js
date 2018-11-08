@@ -7,33 +7,46 @@ router.post("/", function(req, res, next) {
   try {
     //这里取到了配置数据
     const modules = {};
-    let pagecontent = "";
-    const { components } = req.body;
-    components.map(item => {
-      const { component } = item;
-      modules[component.type] = 1;
-      pagecontent += `<${component.type} {...${JSON.stringify(
-        component.props
-      )}} style={${JSON.stringify(component.style)}} />`;
-    });
+    const { views } = req.body;
+    console.log(views);
+    let pages = [];
+    let dataSourceItem = "";
+    let importStr = "";
+    let routeItem = "";
+    views.map((view, index) => {
+      const { components, name } = view;
+      let pagecontent = "";
+      components.map(item => {
+        const { component } = item;
+        modules[component.type] = 1;
+        pagecontent += `<${component.type} {...${JSON.stringify(
+          component.props
+        )}} style={${JSON.stringify(component.style)}} />`;
+      });
 
-    const impModules = `import {${Object.keys(modules).join(
-      ","
-    )}} from "antd-mobile-rn";`;
+      const impModules = `import {${Object.keys(modules).join(
+        ","
+      )}} from "antd-mobile-rn";`;
+      const page = {
+        importStr: impModules,
+        componentStr: pagecontent,
+        title: name
+      };
+      pages.push(page);
+      dataSourceItem += `{title:'${name}',routeName:'${name.toUpperCase()}'},`;
+      importStr += `import ${name.toUpperCase()} from '../pages/${name}';`;
+      routeItem += `${name.toUpperCase()}: { screen: ${name.toUpperCase()} },`;
+    });
 
     const props = {
       filePath: new Date().getTime(),
       demo: {
-        dataSourceItem: "{title:'test',routeName:'Test'}"
+        dataSourceItem: dataSourceItem
       },
-      page: {
-        importStr: impModules,
-        componentStr: pagecontent,
-        title: "test"
-      },
+      pages: pages,
       routes: {
-        importStr: "import Test from '../pages/test'; ",
-        routeItem: "Test: { screen: Test },"
+        importStr: importStr,
+        routeItem: routeItem
       }
     };
 
@@ -56,7 +69,7 @@ router.post("/", function(req, res, next) {
         console.log("📋  Copied to clipboard, just use Ctrl+V");
         res.status(500).send({ error: args._[0] });
       } else {
-        res.json({filePath: props.filePath });
+        res.json({ filePath: props.filePath });
       }
     });
   } catch (error) {

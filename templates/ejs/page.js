@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
-<%- page.importStr %>
+<%- importStr %>
 
 export default class Demo extends Component {
   static navigationOptions = {
-    title: "<%- page.title %>"
+    title: "<%- title %>"
   };
 
   state = {};
@@ -12,7 +12,7 @@ export default class Demo extends Component {
   render() {
     return (
       <View style={{ backgroundColor: "white", flex: 1 }}>
-         <%- page.componentStr %>
+         <%- componentStr %>
       </View>
     );
   }
