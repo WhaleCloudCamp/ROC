@@ -1,3 +1,4 @@
+var compression = require('compression')
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -9,11 +10,11 @@ var pageRouter = require('./routes/page');
 var downloadRouter = require('./routes/download');
 
 var app = express();
+app.use(compression());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
