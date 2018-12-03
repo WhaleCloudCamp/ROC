@@ -20,6 +20,10 @@ module.exports = class AppGenerator extends Generator {
       this.templatePath("app", "assets"),
       this.destinationPath(`${filePathMain}assets`)
     );
+    this.fs.copy(
+      this.templatePath("app", "combination"),
+      this.destinationPath(`${filePathMain}combination`)
+    );
     // this.fs.copy(this.templatePath('app', 'pages'), this.destinationPath(`${filePathMain}pages`));
     // this.fs.copy(this.templatePath('app', 'routes'), this.destinationPath(`${filePathMain}routes`));
     this.fs.copy(

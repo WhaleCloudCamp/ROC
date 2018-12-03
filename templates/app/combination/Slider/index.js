@@ -1,5 +1,5 @@
 import { Slider } from "antd-mobile-rn";
-import React, { Component } from "react";
+import React from "react";
 import { View } from "react-native";
 
 export default class Sliders extends React.Component {
@@ -7,14 +7,13 @@ export default class Sliders extends React.Component {
     return (
       <View
         style={{
-          borderWidth: 15,
-          borderColor: 'white',
-          backgroundColor:'white'
+          borderTopWidth: 10,
+          borderBottomWidth: 10,
+          borderColor: "white",
+          backgroundColor: "white",
         }}
       >
-        <Slider
-        {...this.props}
-        />
+        <Slider {...this.props} />
       </View>
     );
   }
